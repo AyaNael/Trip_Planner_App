@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F7F3">
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnSelectActivities">
+
+    <LinearLayout
+            android:id="@+id/layoutBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="4dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/abc_ic_ab_back_material"
+                android:padding="4dp"
+                app:tint="#3C4A43" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Trips"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#3C4A43"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_title"
+            android:textStyle="bold"
+            android:textColor="#9E9E9E"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/edtTripTitle"
+            android:hint="@string/my_trip_title"
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:textColor="#3C4A43"
+            android:textSize="16sp"
+            android:elevation="1dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/where_to"
+            android:textStyle="bold"
+            android:textColor="#9E9E9E"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/edtTripTo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/palestine"
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:textColor="#3C4A43"
+            android:textSize="16sp"
+            android:elevation="1dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/date_of_travel"
+            android:textStyle="bold"
+            android:textColor="#9E9E9E"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/SelectDatelayout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#FFFFFF"
+            android:paddingHorizontal="12dp"
+            android:gravity="center_vertical"
+            android:elevation="1dp">
+
+            <TextView
+                android:id="@+id/txtSelectedDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/select_date"
+                android:textColor="#3C4A43"
+                android:textSize="16sp"
+               />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_my_calendar"
+                app:tint="#3C4A43" />
+            
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/length_of_stay"
+            android:textStyle="bold"
+            android:textColor="#9E9E9E"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:elevation="1dp"
+            android:padding="12dp">
+
+            <SeekBar
+                android:id="@+id/seekDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:max="30"
+                android:progress="5"
+                android:progressTint="#8EC6C0"
+                android:thumbTint="#3F51B5" />
+
+            <TextView
+                android:id="@+id/tvDaysBubble"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/blue_bubble"
+                android:text="@string/_5"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_of_type"
+            android:textStyle="bold"
+            android:textColor="#9E9E9E"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:elevation="1dp"
+            android:gravity="center"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:id="@+id/layoutBusiness"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:src="@drawable/business_bag"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:tint="#3C4A43" />
+
+                <TextView
+                    android:text="@string/business"
+                    android:textColor="#3C4A43"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutLeisure"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:src="@drawable/hot_arr_baloon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:tint="#3C4A43" />
+
+                <TextView
+                    android:text="@string/leisure"
+                    android:textColor="#3C4A43"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnSelectActivities"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:text="@string/select_activities"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2196F3"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

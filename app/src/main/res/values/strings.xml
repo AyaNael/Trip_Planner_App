@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Trip_Planner_app</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="trip_to_dubai">Trip to Dubai</string>
+    <string name="to_dubai">To: Dubai</string>
+    <string name="date_02_12_2025">Date: 02/12/2025</string>
+    <string name="type_family">Type: Family</string>
+    <string name="my_trips">My Trips</string>
+    <string name="search_trips">Search trips...</string>
+    <string name="add_trip">Add Trip</string>
+    <string name="trip_title">TRIP TITLE</string>
+    <string name="my_trip_title">My Trip Title</string>
+    <string name="where_to">WHERE TO</string>
+    <string name="palestine">Palestine</string>
+    <string name="date_of_travel">DATE OF TRAVEL</string>
+    <string name="select_date">Select date</string>
+    <string name="leisure">Leisure</string>
+    <string name="business">Business</string>
+    <string name="trip_of_type">Trip of Type</string>
+    <string name="length_of_stay">LENGTH OF STAY</string>
+    <string name="_5">5</string>
+    <string name="select_activities">Select Activities</string>
+</resources>
