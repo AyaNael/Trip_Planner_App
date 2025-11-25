@@ -12,9 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trip_Planner_app">
         <activity
+            android:name=".SelectActivitiesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddTripActivity"
+            android:exported="false"/>
+
+        <activity
             android:name=".MyTripsActivity"
             android:exported="false" />
-
         <activity
             android:name=".LoginActivity"
             android:exported="true">
