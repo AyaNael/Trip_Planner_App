@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,14 +26,17 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox chk;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
+    private Button btnLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_login);
         setupViews();
         setupSharedPrefs();
         checkPrefs();
+
     }
 
     private void checkPrefs() {
@@ -56,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         edtName = findViewById(R.id.edtName);
         edtPassword = findViewById(R.id.edtPassword);
         chk = findViewById(R.id.chk);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(v -> btnLoginOnClick(v));
+
     }
 
     public void btnLoginOnClick(View view) {

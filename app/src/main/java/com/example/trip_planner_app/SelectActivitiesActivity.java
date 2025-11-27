@@ -1,6 +1,7 @@
 package com.example.trip_planner_app;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,15 +11,21 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SelectActivitiesActivity extends AppCompatActivity {
 
+    private ImageView btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_select_activities);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        setUpBackBt();
+
     }
+    private void setupViews() {
+        btnBack = findViewById(R.id.btnBack);
+    }
+    public void setUpBackBt(){
+        btnBack.setOnClickListener(v -> finish());
+
+    }
+
+
 }

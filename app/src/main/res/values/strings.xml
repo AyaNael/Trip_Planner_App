@@ -31,4 +31,14 @@
     <string name="running">Running</string>
     <string name="snow_sport">Snow Sport</string>
     <string name="work">Work</string>
+    <string name="snow_sports">Snow Sports</string>
+    <string name="working">Working</string>
+    <string name="camping">Camping</string>
+    <string name="gym">Gym</string>
+    <string name="photography">Photography</string>
+    <string name="international">International</string>
+    <string name="beach">Beach</string>
+    <string name="baby">Baby</string>
+    <string name="bicycling">Bicycling</string>
+    <string name="fancy_dinner">Fancy Dinner</string>
 </resources>
