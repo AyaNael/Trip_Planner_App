@@ -46,7 +46,6 @@ public class AddTripActivity extends AppCompatActivity {
     private Gson gson;
     public static final String DATA = "DATA";
     private static final String PREFS_NAME = "TripPrefs";
-    private boolean tripSaved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,12 +174,17 @@ public class AddTripActivity extends AppCompatActivity {
                     layoutLeisure.setBackgroundColor(selectedColor);
                 }
             }
-            }
+        }
         }
     private void setupSaveButton() {
         btnSaveTrip.setOnClickListener(v -> {
             if (  saveTripToPrefs()) {
-                Toast.makeText(this, "Your Trip Saved", Toast.LENGTH_SHORT).show();
+
+                if (isEditing) {
+                    Toast.makeText(this, "Your trip has been updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Your trip has been added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -233,18 +237,12 @@ public class AddTripActivity extends AppCompatActivity {
         String strUpdated = gson.toJson(list);
         editor.putString(DATA, strUpdated);
         editor.commit();
-        tripSaved = true;
         return true;
 
     }
 
     public void setUpSelectActivitiesButton(){
         btnSelectActivities.setOnClickListener(v -> {
-
-            if (!tripSaved) {
-                Toast.makeText(this, "Please save your trip first", Toast.LENGTH_SHORT).show();
-                return;
-            }
             Intent intent = new Intent(AddTripActivity.this, SelectActivitiesActivity.class);
             startActivity(intent);
         });

@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class MyTripsActivity extends AppCompatActivity {
     private EditText edtSearch;
     private ImageButton btnAddTrip;
     private RecyclerView rcyTrips;
+
 
     private ArrayList<Trip> tripsList = new ArrayList<>();
     private ArrayList<Trip> filteredList = new ArrayList<>();
@@ -51,6 +53,7 @@ public class MyTripsActivity extends AppCompatActivity {
         setupRecyclerView();
         setupSearch();
         loadTripsFromPrefs();
+
     }
 
     private void setupViews() {
@@ -89,6 +92,18 @@ public class MyTripsActivity extends AppCompatActivity {
 
         });
     }
+    private void deleteTrip(Trip trip) {
+        tripsList.remove(trip);
+
+        filteredList.remove(trip);
+
+
+        Gson gson = new Gson();
+        String json = gson.toJson(tripsList);
+        editor.putString(DATA, json);
+        editor.commit();
+    }
+
 
     private void filterTrips(String query) {
         filteredList.clear();

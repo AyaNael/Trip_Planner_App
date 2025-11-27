@@ -3,6 +3,7 @@ package com.example.trip_planner_app;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,14 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
 
     private ArrayList<Trip> tripList = new ArrayList<>();
-
+    private static final String PREFS_NAME = "TripPrefs";
+    private static final String DATA = "DATA";
     public TripsAdapter( ArrayList<Trip> tripList) {
         this.tripList = tripList;
     }
@@ -41,6 +45,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
         TextView txtTo    = cardView.findViewById(R.id.tripTo);
         TextView txtDate  = cardView.findViewById(R.id.tripDate);
         TextView txtType  = cardView.findViewById(R.id.tripType);
+        ImageView imgDelete = cardView.findViewById(R.id.deleteTrip);
 
         txtTitle.setText(trip.getTitle());
         txtTo.setText(trip.getDestination());
@@ -56,6 +61,22 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
             intent.putExtra("type", trip.getType());
             v.getContext().startActivity(intent);
         });
+        imgDelete.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION) return;
+
+            tripList.remove(pos);
+            notifyItemRemoved(pos);
+
+            SharedPreferences prefs = v.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(tripList);
+            editor.putString(DATA, json);
+            editor.apply();
+        });
+
     }
 
     @Override
