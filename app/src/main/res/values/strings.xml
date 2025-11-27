@@ -8,7 +8,6 @@
     <string name="to_dubai">To: Dubai</string>
     <string name="date_02_12_2025">Date: 02/12/2025</string>
     <string name="type_family">Type: Family</string>
-    <string name="my_trips">My Trips</string>
     <string name="search_trips">Search trips...</string>
     <string name="add_trip">Add Trip</string>
     <string name="trip_title">TRIP TITLE</string>
@@ -24,4 +23,12 @@
     <string name="_5">5</string>
     <string name="select_activities">Select Activities</string>
     <string name="save">Save</string>
+    <string name="swimming">Swimming</string>
+    <string name="my_trips">My Trips</string>
+    <string name="activities">Activities</string>
+    <string name="hiking">Hiking</string>
+    <string name="motorcycle">Motorcycle</string>
+    <string name="running">Running</string>
+    <string name="snow_sport">Snow Sport</string>
+    <string name="work">Work</string>
 </resources>

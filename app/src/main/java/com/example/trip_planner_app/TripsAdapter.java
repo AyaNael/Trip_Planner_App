@@ -19,10 +19,8 @@ import java.util.ArrayList;
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
 
     private ArrayList<Trip> tripList = new ArrayList<>();
-    private Context context;
 
-    public TripsAdapter(Context context, ArrayList<Trip> tripList) {
-        this.context = context;
+    public TripsAdapter( ArrayList<Trip> tripList) {
         this.tripList = tripList;
     }
 
@@ -49,14 +47,14 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
         txtDate.setText(trip.getDate());
         txtType.setText(trip.getType());
 
-        cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, AddTripActivity.class);
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), AddTripActivity.class);
             intent.putExtra("title", trip.getTitle());
             intent.putExtra("dest", trip.getDestination());
             intent.putExtra("date", trip.getDate());
             intent.putExtra("days", trip.getDays());
             intent.putExtra("type", trip.getType());
-            context.startActivity(intent);
+            v.getContext().startActivity(intent);
         });
     }
 

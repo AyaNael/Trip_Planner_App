@@ -66,7 +66,7 @@ public class MyTripsActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         rcyTrips.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TripsAdapter(MyTripsActivity.this, filteredList);
+        adapter = new TripsAdapter(filteredList);
         rcyTrips.setAdapter(adapter);
     }
 
