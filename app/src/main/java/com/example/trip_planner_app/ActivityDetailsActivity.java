@@ -213,6 +213,24 @@ public class ActivityDetailsActivity extends AppCompatActivity {
            }
 
            if (tripIndex != -1 && tripIndex < trips.size()) {
+               //check that no activities in the same date and time
+               Trip currentTrip = trips.get(tripIndex);
+               if (currentTrip.getActivities() != null) {
+                   for (int i = 0; i < currentTrip.getActivities().size(); i++) {
+                       TripActivity existing = currentTrip.getActivities().get(i);
+
+                       //The same Activity we are editing it so skip it
+                       if (isEditing && i == activityIndex)
+                           continue;
+
+                       if (existing.getDate().equals(dateStr) &&
+                               existing.getPeriodOfDay().equals(selectedTime)) {
+                           Toast.makeText(this,
+                                   "You already have an activity at this date and time.", Toast.LENGTH_SHORT).show();
+                           return;
+                       }
+                   }
+               }
 
                if (isEditing && activityIndex != -1 &&
                        activityIndex < trips.get(tripIndex).getActivities().size()) {
