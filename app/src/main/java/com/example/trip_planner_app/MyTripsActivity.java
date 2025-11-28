@@ -52,7 +52,7 @@ public class MyTripsActivity extends AppCompatActivity {
         setupAddButton();
         setupRecyclerView();
         setupSearch();
-        loadTripsFromPrefs();
+        loadTrips();
 
     }
 
@@ -101,21 +101,21 @@ public class MyTripsActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = gson.toJson(tripsList);
         editor.putString(DATA, json);
-        editor.commit();
+        editor.apply();
     }
 
 
-    private void filterTrips(String query) {
+    private void filterTrips(String str) {
         filteredList.clear();
-        if (query == null || query.trim().isEmpty()) {
+        if (str == null || str.trim().isEmpty()) {
             filteredList.addAll(tripsList);
         } else {
-            String q = query.toLowerCase().trim();
-            for (Trip t : tripsList) {
-                if (t.getTitle().toLowerCase().contains(q) ||
-                        t.getDestination().toLowerCase().contains(q) ||
-                        t.getType().toLowerCase().contains(q)) {
-                    filteredList.add(t);
+            String searchedStr = str.toLowerCase().trim();
+            for (Trip trip : tripsList) {
+                if (trip.getTitle().toLowerCase().contains(searchedStr) ||
+                        trip.getDestination().toLowerCase().contains(searchedStr) ||
+                        trip.getType().toLowerCase().contains(searchedStr)) {
+                    filteredList.add(trip);
                 }
             }
         }
@@ -129,13 +129,13 @@ public class MyTripsActivity extends AppCompatActivity {
         });
     }
 
-    private void loadTripsFromPrefs() {
+    private void loadTrips() {
         Gson gson = new Gson();
         tripsList.clear();
 
-        String json = prefs.getString(DATA, "");
-        if (!json.equals("")) {
-            Trip[] arr = gson.fromJson(json, Trip[].class);
+        String jsonStr = prefs.getString(DATA, "");
+        if (!jsonStr.equals("")) {
+            Trip[] arr = gson.fromJson(jsonStr, Trip[].class);
             tripsList.addAll(Arrays.asList(arr));
         }
 
@@ -147,7 +147,7 @@ public class MyTripsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadTripsFromPrefs();
+        loadTrips();
     }
 
 }

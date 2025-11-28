@@ -55,7 +55,7 @@ public class AddTripActivity extends AppCompatActivity {
         setupSharedPrefs();
         setupDatePicker();
         setupSeekBar();
-        setupTypeSelection();
+        setupTripType();
         loadTripIfEditing();
         setupSaveButton();
         setUpSelectActivitiesButton();
@@ -121,18 +121,18 @@ public class AddTripActivity extends AppCompatActivity {
         });
     }
 
-    private void setupTypeSelection() {
+    private void setupTripType() {
 
         int selectedColor = Color.parseColor("#D0E8FF");
         int defaultColor = Color.parseColor("#FFFFFF");
 
-        layoutBusiness.setOnClickListener(v -> {
+        layoutBusiness.setOnClickListener(view -> {
             selectedType = "Business";
             layoutBusiness.setBackgroundColor(selectedColor);
             layoutLeisure.setBackgroundColor(defaultColor);
         });
 
-        layoutLeisure.setOnClickListener(v -> {
+        layoutLeisure.setOnClickListener(view -> {
             selectedType = "Leisure";
             layoutBusiness.setBackgroundColor(defaultColor);
             layoutLeisure.setBackgroundColor(selectedColor);
@@ -177,8 +177,8 @@ public class AddTripActivity extends AppCompatActivity {
         }
         }
     private void setupSaveButton() {
-        btnSaveTrip.setOnClickListener(v -> {
-            if (  saveTripToPrefs()) {
+        btnSaveTrip.setOnClickListener(view -> {
+            if (  saveTrip()) {
 
                 if (isEditing) {
                     Toast.makeText(this, "Your trip has been updated", Toast.LENGTH_SHORT).show();
@@ -189,7 +189,7 @@ public class AddTripActivity extends AppCompatActivity {
         });
     }
 
-    private boolean saveTripToPrefs() {
+    private boolean saveTrip() {
         String title = edtTripTitle.getText().toString().trim();
         String dest = edtTripTo.getText().toString().trim();
         String date = txtSelectedDate.getText().toString().trim();
@@ -204,11 +204,11 @@ public class AddTripActivity extends AppCompatActivity {
 
         Trip newTrip = new Trip(title, dest, date, days, selectedType);
 
-        String json = prefs.getString(DATA, "");
+        String jsonStr = prefs.getString(DATA, "");
         List<Trip> list = new ArrayList<>();
 
-        if (!json.equals("")) {
-            Trip[] arr = gson.fromJson(json, Trip[].class);
+        if (!jsonStr.equals("")) {
+            Trip[] arr = gson.fromJson(jsonStr, Trip[].class);
             list.addAll(Arrays.asList(arr));
         }
 
@@ -242,14 +242,20 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     public void setUpSelectActivitiesButton(){
-        btnSelectActivities.setOnClickListener(v -> {
+        btnSelectActivities.setOnClickListener(view -> {
             Intent intent = new Intent(AddTripActivity.this, SelectActivitiesActivity.class);
+            int index = getIntent().getIntExtra("tripIndex", -1);
+            intent.putExtra("tripIndex", index);
+
+            intent.putExtra("tripStartDate", txtSelectedDate.getText().toString());
+            intent.putExtra("tripDays", seekDays.getProgress());
+
             startActivity(intent);
         });
 
     }
     public void setUpBackBt(){
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(view -> finish());
 
     }
 

@@ -26,13 +26,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/activities"
+            android:text="@string/trip"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"
             android:textColor="#2E6D66"/>
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/activityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activities"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#2E6D66"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <GridLayout
         android:id="@+id/gridActivities"
@@ -40,10 +51,10 @@
         android:layout_height="0dp"
         android:rowCount="5"
         android:columnCount="3"
-        android:alignmentMode="alignMargins"
-        android:padding="12dp"
-        android:useDefaultMargins="true"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
+        android:alignmentMode="alignBounds"
+        android:padding="8dp"
+        android:useDefaultMargins="false"
+        app:layout_constraintTop_toBottomOf="@id/activityTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
