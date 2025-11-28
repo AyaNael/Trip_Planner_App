@@ -60,6 +60,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
             intent.putExtra("days", trip.getDays());
             intent.putExtra("type", trip.getType());
             intent.putExtra("tripIndex", holder.getAdapterPosition());
+
             v.getContext().startActivity(intent);
         });
         imgDelete.setOnClickListener(v -> {

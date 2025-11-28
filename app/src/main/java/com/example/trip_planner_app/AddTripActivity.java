@@ -31,7 +31,7 @@ public class AddTripActivity extends AppCompatActivity {
     private SeekBar seekDays;
     private LinearLayout layoutBusiness, layoutLeisure;
     private Button btnSelectActivities, btnSaveTrip;
-
+    private int tripIndex = -1;
     private ImageView btnBack;
     private String selectedType = "Leisure";
     private boolean isEditing = false;
@@ -75,6 +75,7 @@ public class AddTripActivity extends AppCompatActivity {
         layoutLeisure = findViewById(R.id.layoutLeisure);
         btnSelectActivities = findViewById(R.id.btnSelectActivities);
         btnSaveTrip = findViewById(R.id.btnSaveTrip);
+
 
     }
     private void setupSharedPrefs() {
@@ -140,6 +141,7 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     private void loadTripIfEditing() {
+        tripIndex = getIntent().getIntExtra("tripIndex", -1);
         String title = getIntent().getStringExtra("title");
         String dest = getIntent().getStringExtra("dest");
         String date = getIntent().getStringExtra("date");
@@ -175,7 +177,8 @@ public class AddTripActivity extends AppCompatActivity {
                 }
             }
         }
-        }
+
+    }
     private void setupSaveButton() {
         btnSaveTrip.setOnClickListener(view -> {
             if (  saveTrip()) {
@@ -258,6 +261,7 @@ public class AddTripActivity extends AppCompatActivity {
         btnBack.setOnClickListener(view -> finish());
 
     }
+
 
 
 

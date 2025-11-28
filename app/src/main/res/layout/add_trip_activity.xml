@@ -233,6 +233,7 @@
             />
 
     </LinearLayout>
+
     <Button
         android:id="@+id/btnSelectActivities"
         android:layout_width="0dp"
