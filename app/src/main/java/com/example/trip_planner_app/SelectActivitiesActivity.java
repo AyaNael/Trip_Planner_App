@@ -99,18 +99,19 @@ public class SelectActivitiesActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void highlightSelectedActivities() {
-        if (tripIndex == -1) return;
 
         String json = prefs.getString(DATA, "");
-        if (json.isEmpty()) return;
+        if (json.isEmpty())
+            return;
 
         Gson gson = new Gson();
         Trip[] tripsArray = gson.fromJson(json, Trip[].class);
-        if (tripsArray == null || tripIndex >= tripsArray.length) return;
 
         Trip currentTrip = tripsArray[tripIndex];
-        if (currentTrip.getActivities() == null) return;
+        if (currentTrip.getActivities() == null)
+            return;
 
+        // go through al activities for te trip and highlight them
         for (TripActivity act : currentTrip.getActivities()) {
             markLayoutSelected(act.getActivityName());
         }

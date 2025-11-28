@@ -63,6 +63,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
 
             v.getContext().startActivity(intent);
         });
+
+        //delete specific trip
         imgDelete.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
             if (pos == RecyclerView.NO_POSITION) return;

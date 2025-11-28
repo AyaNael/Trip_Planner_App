@@ -29,10 +29,9 @@ public class MyTripsActivity extends AppCompatActivity {
     private EditText edtSearch;
     private ImageButton btnAddTrip;
     private RecyclerView rcyTrips;
-
-
     private ArrayList<Trip> tripsList = new ArrayList<>();
-    private ArrayList<Trip> filteredList = new ArrayList<>();
+
+    private ArrayList<Trip> filteredList = new ArrayList<>();// List used for displaying results from search
 
     private TripsAdapter adapter;
 
@@ -73,23 +72,19 @@ public class MyTripsActivity extends AppCompatActivity {
         rcyTrips.setAdapter(adapter);
     }
 
+    // Setup search box to filter trips while user types
     private void setupSearch() {
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 filterTrips(s.toString());
-
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-
-
         });
     }
     private void deleteTrip(Trip trip) {
@@ -104,7 +99,7 @@ public class MyTripsActivity extends AppCompatActivity {
         editor.apply();
     }
 
-
+    // filter trips by title, destination, or type based on user input
     private void filterTrips(String str) {
         filteredList.clear();
         if (str == null || str.trim().isEmpty()) {
@@ -129,7 +124,7 @@ public class MyTripsActivity extends AppCompatActivity {
         });
     }
 
-    private void loadTrips() {
+    private void loadTrips() {// load trips from shared preference
         Gson gson = new Gson();
         tripsList.clear();
 
@@ -138,12 +133,14 @@ public class MyTripsActivity extends AppCompatActivity {
             Trip[] arr = gson.fromJson(jsonStr, Trip[].class);
             tripsList.addAll(Arrays.asList(arr));
         }
-
+        // Copy all trips to filtered list before any search
         filteredList.clear();
         filteredList.addAll(tripsList);
+
         adapter.updateList(filteredList);
     }
 
+    // When returning to this screen, reload the trips in case user added/edited/deleted a trip
     @Override
     protected void onResume() {
         super.onResume();

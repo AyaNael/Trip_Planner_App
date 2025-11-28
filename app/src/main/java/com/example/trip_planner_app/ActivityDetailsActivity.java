@@ -32,16 +32,16 @@ public class ActivityDetailsActivity extends AppCompatActivity {
     private Button btnSaveActivity;
 
     private ImageView btnBack;
-    private long minDate;
-    private long maxDate;
+    private long minDate; //min activity date boundary taken from Trip start date
+    private long maxDate; // max activity date boundary calculated from Trip start date and length of the trip
     private String selectedTime = null;
 
     private SharedPreferences prefs ;
     private SharedPreferences.Editor editor ;
     private static final String PREFS_NAME = "TripPrefs";
     private static final String DATA = "DATA";
-    private int tripIndex = -1;
-    private int activityIndex = -1;
+    private int tripIndex = -1; // trip num in array list in shared pref
+    private int activityIndex = -1; // activity num in trip.getActivities()
     private boolean isEditing = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +73,10 @@ public class ActivityDetailsActivity extends AppCompatActivity {
 
         if (tripStartDate != null && !tripStartDate.isEmpty()) {
 
-            String[] parts = tripStartDate.split("/");
-            int day = Integer.parseInt(parts[0]);
-            int month = Integer.parseInt(parts[1]) - 1;
-            int year = Integer.parseInt(parts[2]);
+            String[] tokens = tripStartDate.split("/");
+            int day = Integer.parseInt(tokens[0]);
+            int month = Integer.parseInt(tokens[1]) - 1;
+            int year = Integer.parseInt(tokens[2]);
 
             java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.set(year, month, day, 0, 0, 0);
@@ -101,13 +101,13 @@ public class ActivityDetailsActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = prefs.getString(DATA, "");
-            Trip[] tripsArray = gson.fromJson(json, Trip[].class);
+            Trip[] tripsArr = gson.fromJson(json, Trip[].class);
 
-        if (tripsArray == null || tripIndex >= tripsArray.length) {
+        if (tripsArr == null || tripIndex >= tripsArr.length) {
             return;
         }
 
-        Trip trip = tripsArray[tripIndex];
+        Trip trip = tripsArr[tripIndex];
 
         if (trip.getActivities() == null || trip.getActivities().isEmpty()) {
             return;
@@ -116,6 +116,7 @@ public class ActivityDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < trip.getActivities().size(); i++) {
             TripActivity oldAct = trip.getActivities().get(i);
 
+            //Search for the same activity name if found so its editing not adding act
             if (activityName.equals(oldAct.getActivityName())) {
 
                 isEditing = true;
@@ -160,7 +161,7 @@ public class ActivityDetailsActivity extends AppCompatActivity {
             int month = c.get(java.util.Calendar.MONTH);
             int day = c.get(java.util.Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog dialog = new DatePickerDialog(
+            DatePickerDialog datePicker = new DatePickerDialog(
                     ActivityDetailsActivity.this,
                     (view, y, m, d) -> {
                         String dateStr = d + "/" + (m + 1) + "/" + y;
@@ -169,13 +170,13 @@ public class ActivityDetailsActivity extends AppCompatActivity {
                     year, month, day
             );
             if (minDate > 0) {
-                dialog.getDatePicker().setMinDate(minDate);
+                datePicker.getDatePicker().setMinDate(minDate);
             }
             if (maxDate > 0) {
-                dialog.getDatePicker().setMaxDate(maxDate);
+                datePicker.getDatePicker().setMaxDate(maxDate);
             }
 
-            dialog.show();
+            datePicker.show();
         });
     }
     private void setupSaveButton() {
@@ -190,26 +191,19 @@ public class ActivityDetailsActivity extends AppCompatActivity {
          return;
      }
            if (selectedTime == null || selectedTime.isEmpty() ) {
-               android.widget.Toast.makeText(
-                       this,
-                       "Please Choose Time of Day (Morning/ Evening/ Afternoon) ",
-                       android.widget.Toast.LENGTH_SHORT
-               ).show();
+               android.widget.Toast.makeText(this, "Please Choose Time of Day (Morning/ Evening/ Afternoon) ",
+                       android.widget.Toast.LENGTH_SHORT).show();
                return;
            }
-           TripActivity newActivity = new TripActivity(txtActivityName.getText().toString(),
-                   dateStr,
-                   selectedTime,
-                   notes
-           );
+           TripActivity newActivity = new TripActivity(txtActivityName.getText().toString(), dateStr, selectedTime, notes);
            Gson gson = new Gson();
 
            String json = prefs.getString("DATA", "");
-           Trip[] tripsArray = gson.fromJson(json, Trip[].class);
+           Trip[] tripsArr = gson.fromJson(json, Trip[].class);
 
            ArrayList<Trip> trips = new ArrayList<>();
-           if (tripsArray != null) {
-               trips.addAll(Arrays.asList(tripsArray));
+           if (tripsArr != null) {
+               trips.addAll(Arrays.asList(tripsArr));
            }
 
            if (tripIndex != -1 && tripIndex < trips.size()) {
@@ -234,14 +228,14 @@ public class ActivityDetailsActivity extends AppCompatActivity {
 
                if (isEditing && activityIndex != -1 &&
                        activityIndex < trips.get(tripIndex).getActivities().size()) {
-                   trips.get(tripIndex).getActivities().set(activityIndex, newActivity);
+                   trips.get(tripIndex).getActivities().set(activityIndex, newActivity);// Editing Activity
                } else {
-                   trips.get(tripIndex).addActivity(newActivity);
+                   trips.get(tripIndex).addActivity(newActivity); // Adding Act
                }
 
                String updatedStr = gson.toJson(trips);
                editor.putString(DATA, updatedStr);
-               editor.apply();
+               editor.commit();
 
                Toast.makeText(this,
                        isEditing ? "Activity updated!" : "Activity added to trip!",
