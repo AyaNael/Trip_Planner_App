@@ -99,6 +99,7 @@ public class SelectActivitiesActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void highlightSelectedActivities() {
+        if (tripIndex == -1) return;
 
         String json = prefs.getString(DATA, "");
         if (json.isEmpty())
@@ -106,6 +107,9 @@ public class SelectActivitiesActivity extends AppCompatActivity {
 
         Gson gson = new Gson();
         Trip[] tripsArray = gson.fromJson(json, Trip[].class);
+        if (tripsArray == null || tripIndex >= tripsArray.length)
+            return;
+
 
         Trip currentTrip = tripsArray[tripIndex];
         if (currentTrip.getActivities() == null)
