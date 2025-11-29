@@ -182,44 +182,70 @@ public class AddTripActivity extends AppCompatActivity {
     }
     private void setupSaveButton() {
         btnSaveTrip.setOnClickListener(view -> {
-            if (  saveTrip()) {
+            boolean wasEditing = isEditing;
 
-                if (isEditing) {
-                    Toast.makeText(this, "Your trip has been updated", Toast.LENGTH_SHORT).show();
+            int index = saveTripAndGetIndex();
+            if (index != -1) {
+                if (wasEditing) {
+                    Toast.makeText(this,
+                            "Your trip has been updated", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Your trip has been added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            "Your trip has been added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private boolean saveTrip() {
+    public void setUpSelectActivitiesButton(){// opening new activity for selecting activities for this trip
+        btnSelectActivities.setOnClickListener(view -> {
+            int index = saveTripAndGetIndex();
+            if (index == -1) {
+                // there is some problem in entries
+                return;
+            }
+
+            // opening select activities screen for specific trip
+            Intent intent = new Intent(AddTripActivity.this, SelectActivitiesActivity.class);
+            intent.putExtra("tripIndex", index);
+            intent.putExtra("tripStartDate", txtSelectedDate.getText().toString());
+            intent.putExtra("tripDays", seekDays.getProgress());
+
+            startActivity(intent);
+        });
+
+    }
+    private int saveTripAndGetIndex() {
         String title = edtTripTitle.getText().toString().trim();
-        String dest = edtTripTo.getText().toString().trim();
-        String date = txtSelectedDate.getText().toString().trim();
-        int days = seekDays.getProgress();
-        if (days == 0) days = 1;// min days for a trip is one
+        String dest  = edtTripTo.getText().toString().trim();
+        String date  = txtSelectedDate.getText().toString().trim();
+        int days     = seekDays.getProgress();
+        if (days == 0) days = 1;
 
         if (title.isEmpty() || dest.isEmpty() || date.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-
-            return false;
+            Toast.makeText(this,
+                    "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return -1;
         }
 
         Trip newTrip = new Trip(title, dest, date, days, selectedType);
 
-        //loading all previous trips
+        // load all saved trips
         String jsonStr = prefs.getString(DATA, "");
-        List<Trip> list = new ArrayList<>();
+        ArrayList<Trip> list = new ArrayList<>();
 
         if (!jsonStr.equals("")) {
             Trip[] arr = gson.fromJson(jsonStr, Trip[].class);
-            list.addAll(Arrays.asList(arr));
+            if (arr != null) {
+                list.addAll(Arrays.asList(arr));
+            }
         }
 
+        int index = -1;
+
         if (isEditing) {
-            boolean updated = false;
-            for (int i = 0; i < list.size(); i++) { // searching for the trip
+            // search for the trip we need to edit
+            for (int i = 0; i < list.size(); i++) {
                 Trip trip = list.get(i);
                 if (trip.getTitle().equals(originalTitle) &&
                         trip.getDestination().equals(originalDest) &&
@@ -227,39 +253,39 @@ public class AddTripActivity extends AppCompatActivity {
                         trip.getDays() == originalDays &&
                         trip.getType().equals(originalType)) {
 
+                    // getting the activities sor this trip
+                    if (trip.getActivities() != null) {
+                        newTrip.getActivities().addAll(trip.getActivities());
+                    }
+
                     list.set(i, newTrip);
-                    updated = true;
+                    index = i;
                     break;
                 }
             }
-            //if the trip not found so its a new tip
-            if (!updated) {
-                list.add(newTrip);
-            }
-        } else {
-            list.add(newTrip);
         }
 
-        //save the updated list in the shared pref
+        // adding new trip , not editing
+        if (index == -1) {
+            list.add(newTrip);
+            index = list.size() - 1;
+        }
+
+
         String strUpdated = gson.toJson(list);
         editor.putString(DATA, strUpdated);
         editor.commit();
-        return true;
 
-    }
+        // updating trip info
+        isEditing     = true;
+        tripIndex     = index;
+        originalTitle = title;
+        originalDest  = dest;
+        originalDate  = date;
+        originalDays  = days;
+        originalType  = selectedType;
 
-    public void setUpSelectActivitiesButton(){// opening new activity for selecting activities for this trip
-        btnSelectActivities.setOnClickListener(view -> {
-            Intent intent = new Intent(AddTripActivity.this, SelectActivitiesActivity.class);
-            int index = getIntent().getIntExtra("tripIndex", -1);
-            intent.putExtra("tripIndex", index);// passing trip index o link all selected activities with this trip
-
-            intent.putExtra("tripStartDate", txtSelectedDate.getText().toString());
-            intent.putExtra("tripDays", seekDays.getProgress());
-
-            startActivity(intent);
-        });
-
+        return index;
     }
     public void setUpBackBt(){
         btnBack.setOnClickListener(view -> finish());
